@@ -1,12 +1,15 @@
 package hasher
 
 import (
+	"log"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
 func HashPassword(password string) (string, error) {
 	p, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
 	if err != nil {
+		log.Fatal(err)
 		return "", err
 	}
 

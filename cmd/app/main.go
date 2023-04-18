@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/if1bonacci/lets-go-chat/pkg/hasher"
 )
@@ -9,7 +10,7 @@ import (
 func main() {
 	hasher, err := hasher.HashPassword("password")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println(hasher)
