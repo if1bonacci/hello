@@ -8,5 +8,5 @@
 ## Run
 
 ```
-go run github.com/if1bonacci/lets-go-chat/cmd/app
+go run github.com/if1bonacci/lets-go-chat/cmd/lets-go-chat
 ```
