@@ -10,3 +10,9 @@
 ```
 go run github.com/if1bonacci/lets-go-chat/cmd/chat
 ```
+
+## Function
+
+*func* [HashPassword(password string) (string, error)](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L9)
+
+*func* [CheckPasswordHash(password, hash string) bool](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L19)
