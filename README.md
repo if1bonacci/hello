@@ -13,12 +13,12 @@ go run github.com/if1bonacci/lets-go-chat/cmd/chat
 
 ## Function
 
-*func* [HashPassword](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L9)
+* The function *func* [HashPassword](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L9) creates a hashed password by receiving a string
 ```go
 HashPassword(password string) (string, error)
 ```
 
-*func* [CheckPasswordHash](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L19)
+* The function *func* [CheckPasswordHash](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L19) compares received string with password hash
 ```go
 CheckPasswordHash(password, hash string) bool
 ```
