@@ -13,6 +13,12 @@ go run github.com/if1bonacci/lets-go-chat/cmd/chat
 
 ## Function
 
-*func* [HashPassword(password string) (string, error)](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L9)
+*func* [HashPassword](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L9)
+```go
+HashPassword(password string) (string, error)
+```
 
-*func* [CheckPasswordHash(password, hash string) bool](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L19)
+*func* [CheckPasswordHash](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L19)
+```go
+CheckPasswordHash(password, hash string) bool
+```
