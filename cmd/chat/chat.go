@@ -1,17 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
-	"github.com/if1bonacci/lets-go-chat/pkg/hasher"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	hasher, err := hasher.HashPassword("password")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// Echo instance
+	e := echo.New()
 
-	fmt.Println(hasher)
+	// Routes
+	// routes.InitUserRoutes(e)
+
+	// Start server
+	e.Logger.Fatal(e.Start(":8080"))
 }
