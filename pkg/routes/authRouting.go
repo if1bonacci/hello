@@ -1,4 +1,4 @@
-package authRoutes
+package authRouting
 
 import (
 	"net/http"
