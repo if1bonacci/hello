@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/if1bonacci/lets-go-chat/internal/models"
 	"github.com/if1bonacci/lets-go-chat/pkg/hasher"
+	"github.com/if1bonacci/lets-go-chat/pkg/tokenGenerator"
 	"github.com/labstack/echo"
 )
 
@@ -18,7 +20,7 @@ type LoginResponse struct {
 	Url string `json:"url"`
 }
 
-const ChatLink = "ws://fancy-chat.io/ws&token=one-time-token"
+const ChatLink = "ws://fancy-chat.io/ws&token="
 
 func Register(ctx echo.Context) (err error) {
 	user := models.User
@@ -50,5 +52,8 @@ func Login(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid username/password")
 	}
 
-	return ctx.JSON(http.StatusOK, LoginResponse{ChatLink})
+	ctx.Response().Header().Set("X-Rate-Limit", "3000")
+	ctx.Response().Header().Set("X-Expires-After", time.Now().Add(time.Hour*1).UTC().String())
+
+	return ctx.JSON(http.StatusOK, LoginResponse{ChatLink + tokenGenerator.Generate()})
 }
