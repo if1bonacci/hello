@@ -1,9 +1,7 @@
 package models
 
-type UserType struct {
+type User struct {
 	Id       string
-	UserName string `json:"userName"`
-	Password string `json:"password"`
+	UserName string
+	Password string
 }
-
-var User = new(UserType)

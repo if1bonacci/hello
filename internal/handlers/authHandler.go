@@ -4,12 +4,16 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/google/uuid"
-	"github.com/if1bonacci/lets-go-chat/internal/models"
+	"github.com/if1bonacci/lets-go-chat/internal/repositories"
 	"github.com/if1bonacci/lets-go-chat/pkg/hasher"
 	"github.com/if1bonacci/lets-go-chat/pkg/tokenGenerator"
 	"github.com/labstack/echo"
 )
+
+type AuthRequest struct {
+	UserName string `json:"userName"`
+	Password string `json:"password"`
+}
 
 type RegisterResponse struct {
 	Id       string `json:"id"`
@@ -23,30 +27,31 @@ type LoginResponse struct {
 const ChatLink = "ws://fancy-chat.io/ws&token="
 
 func Register(ctx echo.Context) (err error) {
-	user := models.User
-	if err = ctx.Bind(user); err != nil {
+	request := new(AuthRequest)
+
+	if err = ctx.Bind(request); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	user.Id = uuid.New().String()
-	hash, _ := hasher.HashPassword(user.Password)
-	user.Password = hash
+	user := repositories.CreateUser(request.UserName, request.Password)
+	repositories.StoreUser(*user)
 
-	r := &RegisterResponse{
+	resp := &RegisterResponse{
 		Id:       user.Id,
 		UserName: user.UserName,
 	}
 
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusOK, resp)
 }
 
 func Login(ctx echo.Context) (err error) {
-	user := models.User
-	u := new(models.UserType)
+	u := new(AuthRequest)
 
 	if err = ctx.Bind(u); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+
+	user := repositories.GetUserByName(u.UserName)
 
 	if !hasher.CheckPasswordHash(u.Password, user.Password) || u.UserName != user.UserName {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid username/password")
