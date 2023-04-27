@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/if1bonacci/lets-go-chat/pkg/routes/authRouting"
+	"github.com/if1bonacci/lets-go-chat/internal/routing"
 
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo"
 )
 
 func main() {
@@ -11,7 +11,7 @@ func main() {
 	e := echo.New()
 
 	// Routes
-	authRouting.InitAuthRoutes(e)
+	routing.InitAuthRoutes(e)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
