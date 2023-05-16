@@ -6,14 +6,24 @@ import (
 	"github.com/if1bonacci/lets-go-chat/pkg/hasher"
 )
 
-var users = make(map[string]models.User)
+var users = make(map[string]*models.User)
 
-func StoreUser(user models.User) {
+func StoreUser(user *models.User) {
 	users[user.UserName] = user
 }
 
-func GetUserByName(userName string) models.User {
+func GetUserByName(userName string) *models.User {
 	return users[userName]
+}
+
+func GetUserByToken(token string) *models.User {
+	for _, user := range users {
+		if user.Token == token {
+			return user
+		}
+	}
+
+	return nil
 }
 
 func CreateUser(userName string, password string) *models.User {
@@ -23,5 +33,6 @@ func CreateUser(userName string, password string) *models.User {
 		Id:       uuid.New().String(),
 		UserName: userName,
 		Password: hash,
+		Token:    "",
 	}
 }
