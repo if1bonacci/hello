@@ -8,13 +8,14 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
 func main() {
 	// Echo instance
 	e := echo.New()
-	// e.Use(middleware.Logger())
-	// e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
 	// Routes
 	routing.InitAuthRoutes(e)

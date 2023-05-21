@@ -10,12 +10,10 @@ import (
 	"github.com/labstack/echo"
 )
 
-var (
-	upgrader = websocket.Upgrader{
-		ReadBufferSize:  1024,
-		WriteBufferSize: 1024,
-	}
-)
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+}
 
 func ActiveUsers(ctx echo.Context) (err error) {
 	fmt.Println(repositories.NewChat().List())
@@ -25,7 +23,6 @@ func ActiveUsers(ctx echo.Context) (err error) {
 func WebSocket(ctx echo.Context) (err error) {
 	token := ctx.QueryParam("token")
 	user := repositories.GetUserByToken(token)
-
 	if user == nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "User by token is not defined.")
 	}
@@ -34,34 +31,33 @@ func WebSocket(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, "User is already active.")
 	}
 
-	repositories.NewChat().Add(*user)
+	conn, err := upgrader.Upgrade(ctx.Response(), ctx.Request(), nil)
+	repositories.NewChat().Add(*user, conn)
 
-	ws, err := upgrader.Upgrade(ctx.Response(), ctx.Request(), nil)
 	if err != nil {
 		return err
 	}
-	defer ws.Close()
+	defer conn.Close()
 
 	for {
 		message := "client " + user.Id + " Connected!"
 		log.Println(message)
-		reader(ws)
+		reader(conn)
 	}
 }
 
 func reader(conn *websocket.Conn) {
-	for {
-		messageType, p, err := conn.ReadMessage()
-		if err != nil {
+	messageType, p, err := conn.ReadMessage()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	fmt.Println(string(p))
+
+	for _, chat := range repositories.NewChat().List() {
+		if err := chat.WriteMessage(messageType, p); err != nil {
 			log.Println(err)
 			return
 		}
-		fmt.Println(string(p))
-
-		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Println(err)
-			return
-		}
-
 	}
 }
