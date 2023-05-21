@@ -8,6 +8,7 @@ import (
 func InitAuthRoutes(e *echo.Echo) {
 	e.POST("user", handlers.Register)
 	e.POST("user/login", handlers.Login)
+	e.GET("user/list", handlers.ListOfUsers)
 	e.GET("/websoket", handlers.WebSocket)
 	e.GET("/websoket/active-users", handlers.ActiveUsers)
 }

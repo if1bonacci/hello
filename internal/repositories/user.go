@@ -26,6 +26,14 @@ func GetUserByToken(token string) *models.User {
 	return nil
 }
 
+func RemoveToken(user *models.User) {
+	users[user.UserName].Token = ""
+}
+
+func ListOfUsers() map[string]*models.User {
+	return users
+}
+
 func CreateUser(userName string, password string) *models.User {
 	hash, _ := hasher.HashPassword(password)
 

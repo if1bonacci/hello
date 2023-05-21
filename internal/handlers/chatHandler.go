@@ -15,11 +15,6 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func ActiveUsers(ctx echo.Context) (err error) {
-	fmt.Println(repositories.NewChat().List())
-	return ctx.JSON(http.StatusOK, repositories.NewChat().List())
-}
-
 func WebSocket(ctx echo.Context) (err error) {
 	token := ctx.QueryParam("token")
 	user := repositories.GetUserByToken(token)
@@ -33,6 +28,7 @@ func WebSocket(ctx echo.Context) (err error) {
 
 	conn, err := upgrader.Upgrade(ctx.Response(), ctx.Request(), nil)
 	repositories.NewChat().Add(*user, conn)
+	repositories.RemoveToken(user)
 
 	if err != nil {
 		return err
