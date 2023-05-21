@@ -42,14 +42,15 @@ func WebSocket(ctx echo.Context) (err error) {
 	for {
 		message := "client " + user.Id + " Connected!"
 		log.Println(message)
-		reader(conn)
+		reader(conn, token)
 	}
 }
 
-func reader(conn *websocket.Conn) {
+func reader(conn *websocket.Conn, token string) {
 	messageType, p, err := conn.ReadMessage()
 	if err != nil {
 		log.Println(err)
+		repositories.NewChat().Remove(token)
 		return
 	}
 	fmt.Println(string(p))

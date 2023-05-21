@@ -34,6 +34,10 @@ func (rep *chatRepository) Add(user models.User, conn *websocket.Conn) {
 	rep.chatUsers[user.Token] = conn
 }
 
+func (rep *chatRepository) Remove(token string) {
+	delete(rep.chatUsers, token)
+}
+
 func (rep *chatRepository) List() map[string]*websocket.Conn {
 	return rep.chatUsers
 }
