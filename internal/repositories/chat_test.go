@@ -209,3 +209,28 @@ func Test_chatRepository_List(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkChatRepositoryList(b *testing.B) {
+	rep := &chatRepository{
+		chatUsers: map[string]*websocket.Conn{
+			"test_token_1":  nil,
+			"test_token_2":  nil,
+			"test_token_3":  nil,
+			"test_token_4":  nil,
+			"test_token_5":  nil,
+			"test_token_6":  nil,
+			"test_token_7":  nil,
+			"test_token_8":  nil,
+			"test_token_9":  nil,
+			"test_token_10": nil,
+			"test_token_11": nil,
+			"test_token_12": nil,
+			"test_token_13": nil,
+			"test_token_14": nil,
+			"test_token_15": nil,
+		},
+	}
+	for n := 0; n < b.N; n++ {
+		rep.List()
+	}
+}

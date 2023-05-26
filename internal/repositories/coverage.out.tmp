@@ -1,0 +1,17 @@
+mode: set
+github.com/if1bonacci/lets-go-chat/internal/repositories/chat.go:17.32,18.17 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/chat.go:18.17,22.3 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/chat.go:24.2,24.17 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/chat.go:27.56,31.2 2 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/chat.go:33.72,35.2 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/chat.go:37.49,39.2 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/chat.go:41.62,43.2 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/user.go:11.35,13.2 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/user.go:15.50,17.2 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/user.go:19.48,20.29 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/user.go:20.29,21.26 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/user.go:21.26,23.4 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/user.go:26.2,26.12 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/user.go:29.37,31.2 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/user.go:33.44,35.2 1 1
+github.com/if1bonacci/lets-go-chat/internal/repositories/user.go:37.64,46.2 2 1
