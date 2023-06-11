@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/if1bonacci/lets-go-chat/internal/configs"
 	"github.com/if1bonacci/lets-go-chat/internal/routing"
 	"github.com/joho/godotenv"
 
@@ -14,6 +15,10 @@ import (
 func main() {
 	// Echo instance
 	e := echo.New()
+
+	//run database
+	configs.ConnectDB()
+
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 

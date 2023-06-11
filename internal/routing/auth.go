@@ -11,4 +11,6 @@ func InitAuthRoutes(e *echo.Echo) {
 	e.GET("user/list", handlers.ListOfUsers)
 	e.GET("/websoket", handlers.WebSocket)
 	e.GET("/websoket/active-users", handlers.ActiveUsers)
+	e.POST("message", handlers.CreateMessage)
+	e.GET("messages", handlers.AllMessages)
 }
