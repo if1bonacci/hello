@@ -55,8 +55,7 @@ func reader(conn *websocket.Conn, token string) {
 		return
 	}
 
-	messageM := repositories.InitMessage().Create(string(p))
-	repositories.InitMessage().Add(messageM)
+	go repositories.InitMessage().Add(string(p))
 
 	for _, chat := range repositories.NewChat().List() {
 		if err := chat.WriteMessage(messageType, p); err != nil {

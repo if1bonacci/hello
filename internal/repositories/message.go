@@ -30,11 +30,16 @@ func InitMessage() *messageRepository {
 	return instanceM
 }
 
-func (rep *messageRepository) Add(mes models.Message) {
+func (rep *messageRepository) Add(mes string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	rep.messages.InsertOne(ctx, mes)
+	message := models.Message{
+		Id:   primitive.NewObjectID(),
+		Body: mes,
+	}
+
+	rep.messages.InsertOne(ctx, message)
 }
 
 func (rep *messageRepository) Create(mes string) models.Message {

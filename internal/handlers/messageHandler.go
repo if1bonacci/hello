@@ -19,8 +19,7 @@ func CreateMessage(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	message := repositories.InitMessage().Create(request.Body)
-	repositories.InitMessage().Add(message)
+	repositories.InitMessage().Add(request.Body)
 
 	return ctx.JSON(http.StatusOK, "success")
 }
