@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type messageRepository struct {
@@ -54,7 +55,10 @@ func (rep *messageRepository) List() []models.Message {
 	var messages []models.Message
 	defer cancel()
 
-	results, err := rep.messages.Find(ctx, bson.M{})
+	filter := bson.D{}
+	opts := options.Find().SetSort(bson.D{{"_id", -1}})
+	results, err := rep.messages.Find(context.TODO(), filter, opts)
+
 	if err != nil {
 		fmt.Println(err)
 	}
