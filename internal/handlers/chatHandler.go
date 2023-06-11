@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -28,6 +27,13 @@ func WebSocket(ctx echo.Context) (err error) {
 
 	conn, err := upgrader.Upgrade(ctx.Response(), ctx.Request(), nil)
 	repositories.NewChat().Add(*user, conn)
+	messages := repositories.InitMessage().List()
+	for _, mes := range messages {
+		err = conn.WriteMessage(1, []byte(mes.Body))
+		if err != nil {
+			log.Println(err)
+		}
+	}
 	repositories.RemoveToken(user)
 
 	if err != nil {
@@ -36,8 +42,6 @@ func WebSocket(ctx echo.Context) (err error) {
 	defer conn.Close()
 
 	for {
-		message := "client " + user.Id + " Connected!"
-		log.Println(message)
 		reader(conn, token)
 	}
 }
@@ -46,10 +50,13 @@ func reader(conn *websocket.Conn, token string) {
 	messageType, p, err := conn.ReadMessage()
 	if err != nil {
 		log.Println(err)
+
 		repositories.NewChat().Remove(token)
 		return
 	}
-	fmt.Println(string(p))
+
+	messageM := repositories.InitMessage().Create(string(p))
+	repositories.InitMessage().Add(messageM)
 
 	for _, chat := range repositories.NewChat().List() {
 		if err := chat.WriteMessage(messageType, p); err != nil {
