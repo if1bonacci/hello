@@ -29,10 +29,10 @@ const ChatLink = "/websoket?token="
 
 type AuthHandler struct {
 	repo     repositories.MessageRepository
-	userRepo repositories.UserRepository
+	userRepo *repositories.UserRepository
 }
 
-func ProvideAuthHandler(r repositories.MessageRepository, u repositories.UserRepository) AuthHandler {
+func ProvideAuthHandler(r repositories.MessageRepository, u *repositories.UserRepository) AuthHandler {
 	return AuthHandler{
 		repo:     r,
 		userRepo: u,

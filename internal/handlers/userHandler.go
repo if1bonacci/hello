@@ -8,11 +8,11 @@ import (
 )
 
 type UserHandler struct {
-	repo     repositories.UserRepository
+	repo     *repositories.UserRepository
 	chatRepo repositories.ChatRepository
 }
 
-func ProvideUserHandler(r repositories.UserRepository) UserHandler {
+func ProvideUserHandler(r *repositories.UserRepository) UserHandler {
 	return UserHandler{
 		repo: r,
 	}

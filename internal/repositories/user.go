@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"sync"
+
 	"github.com/google/uuid"
 	"github.com/if1bonacci/lets-go-chat/internal/models"
 	"github.com/if1bonacci/lets-go-chat/pkg/hasher"
@@ -10,10 +12,17 @@ type UserRepository struct {
 	users map[string]*models.User
 }
 
-func ProvideUserRepo() UserRepository {
-	return UserRepository{
-		users: make(map[string]*models.User),
-	}
+var instanceU *UserRepository
+var onceU sync.Once
+
+func ProvideUserRepo() *UserRepository {
+	onceU.Do(func() {
+		instanceU = &UserRepository{
+			users: make(map[string]*models.User),
+		}
+	})
+
+	return instanceU
 }
 
 func (u *UserRepository) StoreUser(user *models.User) {

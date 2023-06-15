@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"sync"
+
 	"github.com/gorilla/websocket"
 	"github.com/if1bonacci/lets-go-chat/internal/models"
 )
@@ -9,10 +11,17 @@ type ChatRepository struct {
 	chatUsers map[string]*websocket.Conn
 }
 
-func ProvideChatRepo() ChatRepository {
-	return ChatRepository{
-		chatUsers: make(map[string]*websocket.Conn),
-	}
+var chatRepoInst *ChatRepository
+var chatRepoOnce sync.Once
+
+func ProvideChatRepo() *ChatRepository {
+	chatRepoOnce.Do(func() {
+		chatRepoInst = &ChatRepository{
+			chatUsers: make(map[string]*websocket.Conn),
+		}
+	})
+
+	return chatRepoInst
 }
 
 func (rep *ChatRepository) IsActive(token string) bool {

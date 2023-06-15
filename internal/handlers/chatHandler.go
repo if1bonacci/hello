@@ -11,14 +11,14 @@ import (
 
 type ChatHandler struct {
 	repo     repositories.MessageRepository
-	userRepo repositories.UserRepository
-	chatRepo repositories.ChatRepository
+	userRepo *repositories.UserRepository
+	chatRepo *repositories.ChatRepository
 }
 
 func ProvideChatHandler(
 	r repositories.MessageRepository,
-	u repositories.UserRepository,
-	c repositories.ChatRepository,
+	u *repositories.UserRepository,
+	c *repositories.ChatRepository,
 ) ChatHandler {
 	return ChatHandler{
 		repo:     r,
@@ -60,7 +60,7 @@ func (h *ChatHandler) WebSocket(ctx echo.Context) (err error) {
 	defer conn.Close()
 
 	for {
-		reader(conn, token, h.repo, h.chatRepo)
+		reader(conn, token, h.repo, *h.chatRepo)
 	}
 }
 
