@@ -3,7 +3,6 @@ package repositories
 import (
 	"context"
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/if1bonacci/lets-go-chat/internal/configs"
@@ -14,24 +13,21 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type messageRepository struct {
-	messages *mongo.Collection
+type MessageRepository struct {
+	db configs.MongoDB
 }
 
-var instanceM *messageRepository
-var onceM sync.Once
-
-func InitMessage() *messageRepository {
-	onceM.Do(func() {
-		instanceM = &messageRepository{
-			messages: configs.GetCollection(configs.DB, "messages"),
-		}
-	})
-
-	return instanceM
+func ProvideMessageRepo(db configs.MongoDB) MessageRepository {
+	return MessageRepository{
+		db: db,
+	}
 }
 
-func (rep *messageRepository) Add(mes string) {
+func (rep *MessageRepository) InitMessage() *mongo.Collection {
+	return rep.db.GetCollection("messages")
+}
+
+func (rep *MessageRepository) Add(mes string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -40,24 +36,24 @@ func (rep *messageRepository) Add(mes string) {
 		Body: mes,
 	}
 
-	rep.messages.InsertOne(ctx, message)
+	rep.InitMessage().InsertOne(ctx, message)
 }
 
-func (rep *messageRepository) Create(mes string) models.Message {
+func (rep *MessageRepository) Create(mes string) models.Message {
 	return models.Message{
 		Id:   primitive.NewObjectID(),
 		Body: mes,
 	}
 }
 
-func (rep *messageRepository) List() []models.Message {
+func (rep *MessageRepository) List() []models.Message {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	var messages []models.Message
 	defer cancel()
 
 	filter := bson.D{}
 	opts := options.Find().SetSort(bson.D{{"_id", -1}})
-	results, err := rep.messages.Find(context.TODO(), filter, opts)
+	results, err := rep.InitMessage().Find(context.TODO(), filter, opts)
 
 	if err != nil {
 		fmt.Println(err)

@@ -7,10 +7,21 @@ import (
 	"github.com/labstack/echo"
 )
 
-func ListOfUsers(ctx echo.Context) (err error) {
-	return ctx.JSON(http.StatusOK, repositories.ListOfUsers())
+type UserHandler struct {
+	repo     repositories.UserRepository
+	chatRepo repositories.ChatRepository
 }
 
-func ActiveUsers(ctx echo.Context) (err error) {
-	return ctx.JSON(http.StatusOK, repositories.NewChat().List())
+func ProvideUserHandler(r repositories.UserRepository) UserHandler {
+	return UserHandler{
+		repo: r,
+	}
+}
+
+func (u *UserHandler) ListOfUsers(ctx echo.Context) (err error) {
+	return ctx.JSON(http.StatusOK, u.repo.ListOfUsers())
+}
+
+func (u *UserHandler) ActiveUsers(ctx echo.Context) (err error) {
+	return ctx.JSON(http.StatusOK, u.chatRepo.List())
 }

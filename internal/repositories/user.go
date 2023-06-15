@@ -6,18 +6,26 @@ import (
 	"github.com/if1bonacci/lets-go-chat/pkg/hasher"
 )
 
-var users = make(map[string]*models.User)
-
-func StoreUser(user *models.User) {
-	users[user.UserName] = user
+type UserRepository struct {
+	users map[string]*models.User
 }
 
-func GetUserByName(userName string) *models.User {
-	return users[userName]
+func ProvideUserRepo() UserRepository {
+	return UserRepository{
+		users: make(map[string]*models.User),
+	}
 }
 
-func GetUserByToken(token string) *models.User {
-	for _, user := range users {
+func (u *UserRepository) StoreUser(user *models.User) {
+	u.users[user.UserName] = user
+}
+
+func (u *UserRepository) GetUserByName(userName string) *models.User {
+	return u.users[userName]
+}
+
+func (u *UserRepository) GetUserByToken(token string) *models.User {
+	for _, user := range u.users {
 		if user.Token == token {
 			return user
 		}
@@ -26,15 +34,15 @@ func GetUserByToken(token string) *models.User {
 	return nil
 }
 
-func RemoveToken(user *models.User) {
-	users[user.UserName].Token = ""
+func (u *UserRepository) RemoveToken(user *models.User) {
+	u.users[user.UserName].Token = ""
 }
 
-func ListOfUsers() map[string]*models.User {
-	return users
+func (u *UserRepository) ListOfUsers() map[string]*models.User {
+	return u.users
 }
 
-func CreateUser(userName string, password string) *models.User {
+func (u *UserRepository) CreateUser(userName string, password string) *models.User {
 	hash, _ := hasher.HashPassword(password)
 
 	return &models.User{

@@ -27,15 +27,27 @@ type LoginResponse struct {
 
 const ChatLink = "/websoket?token="
 
-func Register(ctx echo.Context) (err error) {
+type AuthHandler struct {
+	repo     repositories.MessageRepository
+	userRepo repositories.UserRepository
+}
+
+func ProvideAuthHandler(r repositories.MessageRepository, u repositories.UserRepository) AuthHandler {
+	return AuthHandler{
+		repo:     r,
+		userRepo: u,
+	}
+}
+
+func (h *AuthHandler) Register(ctx echo.Context) (err error) {
 	request := new(AuthRequest)
 
 	if err = ctx.Bind(request); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	user := repositories.CreateUser(request.UserName, request.Password)
-	repositories.StoreUser(user)
+	user := h.userRepo.CreateUser(request.UserName, request.Password)
+	h.userRepo.StoreUser(user)
 
 	resp := &RegisterResponse{
 		Id:       user.Id,
@@ -45,7 +57,7 @@ func Register(ctx echo.Context) (err error) {
 	return ctx.JSON(http.StatusOK, resp)
 }
 
-func Login(ctx echo.Context) (err error) {
+func (h *AuthHandler) Login(ctx echo.Context) (err error) {
 	u := new(AuthRequest)
 	path := os.Getenv("URL") + ChatLink
 
@@ -53,7 +65,7 @@ func Login(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	user := repositories.GetUserByName(u.UserName)
+	user := h.userRepo.GetUserByName(u.UserName)
 
 	if !hasher.CheckPasswordHash(u.Password, user.Password) || u.UserName != user.UserName {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid username/password")

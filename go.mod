@@ -6,6 +6,7 @@ require golang.org/x/crypto v0.8.0
 
 require (
 	github.com/google/uuid v1.3.0
+	github.com/google/wire v0.5.0
 	github.com/gorilla/websocket v1.5.0
 	github.com/labstack/echo v3.3.10+incompatible
 	go.mongodb.org/mongo-driver v1.11.7

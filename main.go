@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/if1bonacci/lets-go-chat/internal/configs"
-	"github.com/if1bonacci/lets-go-chat/internal/routing"
 	"github.com/joho/godotenv"
 
 	"github.com/labstack/echo"
@@ -17,13 +15,21 @@ func main() {
 	e := echo.New()
 
 	//run database
-	configs.ConnectDB()
+	db, err := InitializeDB()
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+	db.ConnectDB()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
 	// Routes
-	routing.InitAuthRoutes(e)
+	routes, err := InitializeRouting()
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+	routes.InitAuthRoutes(e)
 
 	godotenv.Load()
 	port := os.Getenv("PORT")

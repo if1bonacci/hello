@@ -10,8 +10,18 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func ConnectDB() *mongo.Client {
-	client, err := mongo.NewClient(options.Client().ApplyURI(EnvMongoURI()))
+type MongoDB struct {
+	env Env
+}
+
+func ProvideMongoDB(e Env) MongoDB {
+	return MongoDB{
+		env: e,
+	}
+}
+
+func (m *MongoDB) ConnectDB() *mongo.Client {
+	client, err := mongo.NewClient(options.Client().ApplyURI(m.env.GetMongoUri()))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,11 +42,7 @@ func ConnectDB() *mongo.Client {
 	return client
 }
 
-// Client instance
-var DB *mongo.Client = ConnectDB()
-
-// getting database collections
-func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
-	collection := client.Database(EnvDBName()).Collection(collectionName)
+func (m *MongoDB) GetCollection(collectionName string) *mongo.Collection {
+	collection := m.ConnectDB().Database(m.env.GetDbName()).Collection(collectionName)
 	return collection
 }

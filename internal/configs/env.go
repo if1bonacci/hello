@@ -7,20 +7,27 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func EnvMongoURI() string {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	return os.Getenv("MONGOURI")
+type Env struct {
+	mongoUri string
+	dbName   string
 }
 
-func EnvDBName() string {
+func ProvideEnv() Env {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
-	return os.Getenv("DB_NAME")
+	return Env{
+		mongoUri: os.Getenv("MONGOURI"),
+		dbName:   os.Getenv("DB_NAME"),
+	}
+}
+
+func (e *Env) GetMongoUri() string {
+	return e.mongoUri
+}
+
+func (e *Env) GetDbName() string {
+	return e.dbName
 }

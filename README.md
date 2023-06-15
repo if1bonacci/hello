@@ -8,7 +8,7 @@
 ## Run
 
 ```
-go run github.com/if1bonacci/lets-go-chat/cmd/chat
+go run main.go wire_gen.go
 ```
 
 ## Function
