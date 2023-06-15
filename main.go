@@ -6,13 +6,28 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+
+	echoSwagger "github.com/swaggo/echo-swagger"
+
+	_ "github.com/if1bonacci/lets-go-chat/docs"
 )
 
+// @title           Lets go chat
+// @version         1.0
+// @description     This is a go sandbox.
+
+// @host      localhost:8080
+// @BasePath  /
+
+// @securityDefinitions.apiKey  ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	// Echo instance
 	e := echo.New()
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	//run database
 	db, err := InitializeDB()

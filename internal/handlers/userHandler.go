@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/if1bonacci/lets-go-chat/internal/repositories"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type UserHandler struct {
@@ -18,6 +18,14 @@ func ProvideUserHandler(r *repositories.UserRepository) UserHandler {
 	}
 }
 
+// ListOfUsers godoc
+// @Summary      List of users
+// @Description  get list of users
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Success      200  {array}   models.User
+// @Router       /user/list [get]
 func (u *UserHandler) ListOfUsers(ctx echo.Context) (err error) {
 	return ctx.JSON(http.StatusOK, u.repo.ListOfUsers())
 }

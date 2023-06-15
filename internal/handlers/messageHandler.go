@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/if1bonacci/lets-go-chat/internal/repositories"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type MessageRequest struct {
@@ -34,6 +34,14 @@ func (h *MessageHandler) CreateMessage(ctx echo.Context) (err error) {
 	return ctx.JSON(http.StatusOK, "success")
 }
 
+// AllMessages godoc
+// @Summary      List of messages
+// @Description  get list of message
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Success      200  {array}   models.Message
+// @Router       /messages [get]
 func (h *MessageHandler) AllMessages(ctx echo.Context) (err error) {
 	messages := h.repo.List()
 

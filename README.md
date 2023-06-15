@@ -11,6 +11,11 @@
 go run main.go wire_gen.go
 ```
 
+## Swagger
+```
+http://localhost:8080/swagger/index.html#/
+```
+
 ## Function
 
 * The function *func* [HashPassword](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L9) creates a hashed password by receiving a string

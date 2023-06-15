@@ -1,0 +1,69 @@
+basePath: /
+definitions:
+  models.Message:
+    properties:
+      body:
+        type: string
+      id:
+        type: string
+    required:
+    - body
+    type: object
+  models.User:
+    properties:
+      id:
+        type: string
+      password:
+        type: string
+      token:
+        type: string
+      userName:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a go sandbox.
+  title: Lets go chat
+  version: "1.0"
+paths:
+  /messages:
+    get:
+      consumes:
+      - application/json
+      description: get list of message
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Message'
+            type: array
+      summary: List of messages
+      tags:
+      - users
+  /user/list:
+    get:
+      consumes:
+      - application/json
+      description: get list of users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: List of users
+      tags:
+      - users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

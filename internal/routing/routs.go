@@ -2,7 +2,7 @@ package routing
 
 import (
 	"github.com/if1bonacci/lets-go-chat/internal/handlers"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type Routing struct {

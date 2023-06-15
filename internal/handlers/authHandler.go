@@ -8,7 +8,7 @@ import (
 	"github.com/if1bonacci/lets-go-chat/internal/repositories"
 	"github.com/if1bonacci/lets-go-chat/pkg/hasher"
 	"github.com/if1bonacci/lets-go-chat/pkg/tokenGenerator"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type AuthRequest struct {

@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/if1bonacci/lets-go-chat/internal/repositories"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type ChatHandler struct {
