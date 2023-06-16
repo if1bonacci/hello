@@ -16,6 +16,12 @@ go run main.go wire_gen.go
 http://localhost:8080/swagger/index.html#/
 ```
 
+
+##Mock
+```bash
+mockgen -source=./internal/handlers/messageHandler.go -destination=./internal/mock/handlers/messageHandler.go
+```
+
 ## Function
 
 * The function *func* [HashPassword](https://github.com/if1bonacci/lets-go-chat/blob/master/pkg/hasher/hasher.go#L9) creates a hashed password by receiving a string
