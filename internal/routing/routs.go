@@ -29,9 +29,9 @@ func ProvideRouting(
 func (r *Routing) InitAuthRoutes(e *echo.Echo) {
 	e.POST("user", r.auth.Register)
 	e.POST("user/login", r.auth.Login)
+	e.GET("websoket", r.chat.WebSocket)
 	e.GET("user/list", r.user.ListOfUsers)
-	e.GET("/websoket", r.chat.WebSocket)
-	e.GET("/websoket/active-users", r.user.ActiveUsers)
+	e.GET("user/active-users", r.user.ActiveUsers)
 	e.POST("message", r.message.CreateMessage)
 	e.GET("messages", r.message.AllMessages)
 }
