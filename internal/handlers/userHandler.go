@@ -24,12 +24,18 @@ func ProvideUserHandler(r *repositories.UserRepository) UserHandler {
 // @Tags         users
 // @Accept       json
 // @Produce      json
-// @Success      200  {array}   models.User
 // @Router       /user/list [get]
 func (u *UserHandler) ListOfUsers(ctx echo.Context) (err error) {
 	return ctx.JSON(http.StatusOK, u.repo.ListOfUsers())
 }
 
+// ActiveUsers godoc
+// @Summary      List of active users
+// @Description  get list of users
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Router       /user/active-users [get]
 func (u *UserHandler) ActiveUsers(ctx echo.Context) (err error) {
 	return ctx.JSON(http.StatusOK, u.chatRepo.List())
 }

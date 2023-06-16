@@ -39,6 +39,15 @@ func ProvideAuthHandler(r repositories.MessageRepository, u *repositories.UserRe
 	}
 }
 
+// Register godoc
+// @Summary      Register
+// @Description  Register
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param input body AuthRequest true "auth body"
+// @Success      200  {object}  RegisterResponse
+// @Router       /user [post]
 func (h *AuthHandler) Register(ctx echo.Context) (err error) {
 	request := new(AuthRequest)
 
@@ -57,6 +66,15 @@ func (h *AuthHandler) Register(ctx echo.Context) (err error) {
 	return ctx.JSON(http.StatusOK, resp)
 }
 
+// Login godoc
+// @Summary      Login
+// @Description  Login
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param input body AuthRequest true "auth body"
+// @Success      200  {object}  LoginResponse "success"
+// @Router       /user/login [post]
 func (h *AuthHandler) Login(ctx echo.Context) (err error) {
 	u := new(AuthRequest)
 	path := os.Getenv("URL") + ChatLink

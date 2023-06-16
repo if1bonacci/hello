@@ -22,6 +22,15 @@ func ProvideMessageHandler(r repositories.MessageRepository) MessageHandler {
 	}
 }
 
+// CreateMessage godoc
+// @Summary      Create new message
+// @Description  Create new message
+// @Tags         messages
+// @Accept       json
+// @Produce      json
+// @Param input body MessageRequest true "some text"
+// @Success      200  {string}  string    "success"
+// @Router       /message [post]
 func (h *MessageHandler) CreateMessage(ctx echo.Context) (err error) {
 	request := new(MessageRequest)
 
@@ -37,7 +46,7 @@ func (h *MessageHandler) CreateMessage(ctx echo.Context) (err error) {
 // AllMessages godoc
 // @Summary      List of messages
 // @Description  get list of message
-// @Tags         users
+// @Tags         messages
 // @Accept       json
 // @Produce      json
 // @Success      200  {array}   models.Message
