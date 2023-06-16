@@ -27,6 +27,11 @@ type LoginResponse struct {
 
 const ChatLink = "/websoket?token="
 
+type AuthHandlerInterface interface {
+	Register(ctx echo.Context) (err error)
+	Login(ctx echo.Context) (err error)
+}
+
 type AuthHandler struct {
 	repo     repositories.MessageRepository
 	userRepo *repositories.UserRepository

@@ -8,6 +8,15 @@ import (
 	"github.com/if1bonacci/lets-go-chat/pkg/hasher"
 )
 
+type UserRepositoryInterface interface {
+	StoreUser(user *models.User)
+	GetUserByName(userName string) *models.User
+	GetUserByToken(token string) *models.User
+	RemoveToken(user *models.User)
+	ListOfUsers() map[string]*models.User
+	CreateUser(userName string, password string) *models.User
+}
+
 type UserRepository struct {
 	users map[string]*models.User
 }

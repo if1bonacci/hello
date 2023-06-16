@@ -9,6 +9,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type ChatHandlerInterface interface {
+	WebSocket(ctx echo.Context) (err error)
+}
+
 type ChatHandler struct {
 	repo     repositories.MessageRepository
 	userRepo *repositories.UserRepository

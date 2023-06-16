@@ -7,6 +7,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type UserHandlerInterface interface {
+	ListOfUsers(ctx echo.Context) (err error)
+	ActiveUsers(ctx echo.Context) (err error)
+}
+
 type UserHandler struct {
 	repo     *repositories.UserRepository
 	chatRepo repositories.ChatRepository

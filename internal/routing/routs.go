@@ -5,6 +5,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type RoutingInterface interface {
+	InitAuthRoutes(e *echo.Echo)
+}
+
 type Routing struct {
 	auth    handlers.AuthHandler
 	message handlers.MessageHandler

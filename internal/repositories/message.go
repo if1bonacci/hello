@@ -13,6 +13,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+type MessageRepositoryInterface interface {
+	InitMessage() *mongo.Collection
+	Add(mes string)
+	Create(mes string) models.Message
+	List() []models.Message
+}
+
 type MessageRepository struct {
 	db configs.MongoDB
 }

@@ -8,6 +8,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type MessageHandlerInterface interface {
+	CreateMessage(ctx echo.Context) (err error)
+	AllMessages(ctx echo.Context) (err error)
+}
+
 type MessageRequest struct {
 	Body string `json:"body"`
 }

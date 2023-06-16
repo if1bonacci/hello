@@ -7,6 +7,11 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type EnvInterface interface {
+	GetMongoUri() string
+	GetDbName() string
+}
+
 type Env struct {
 	mongoUri string
 	dbName   string

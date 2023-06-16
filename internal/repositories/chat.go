@@ -7,6 +7,13 @@ import (
 	"github.com/if1bonacci/lets-go-chat/internal/models"
 )
 
+type ChatRepositoryInterface interface {
+	IsActive(token string) bool
+	Add(user models.User, conn *websocket.Conn)
+	Remove(token string)
+	List() map[string]*websocket.Conn
+}
+
 type ChatRepository struct {
 	chatUsers map[string]*websocket.Conn
 }

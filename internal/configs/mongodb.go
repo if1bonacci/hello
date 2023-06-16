@@ -10,6 +10,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+type MongoDBInterface interface {
+	ConnectDB() *mongo.Client
+	GetCollection(collectionName string) *mongo.Collection
+}
+
 type MongoDB struct {
 	env Env
 }
