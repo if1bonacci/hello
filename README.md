@@ -16,6 +16,16 @@ go run main.go wire_gen.go
 http://localhost:8080/swagger/index.html#/
 ```
 
+## pprof
+```bash
+
+./pprof.sh
+```
+
+
+```
+http://localhost:8080/debug/pprof/
+```
 
 ##Mock
 ```bash

@@ -11,6 +11,9 @@ import (
 
 	echoSwagger "github.com/swaggo/echo-swagger"
 
+	"net/http"
+	_ "net/http/pprof"
+
 	_ "github.com/if1bonacci/lets-go-chat/docs"
 )
 
@@ -28,6 +31,7 @@ func main() {
 	// Echo instance
 	e := echo.New()
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.GET("/debug/*", echo.WrapHandler(http.DefaultServeMux))
 
 	//run database
 	db, err := InitializeDB()
@@ -41,6 +45,7 @@ func main() {
 
 	// Routes
 	routes, err := InitializeRouting()
+	// Регистрация pprof-обработчиков
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
